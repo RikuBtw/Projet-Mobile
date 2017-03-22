@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,27 +20,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Spinner element
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        //Variables
+        ArrayList<String> listItems=new ArrayList<String>();
 
-        // Spinner Drop down elements
+        //Elements
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
         List<String> categories = new ArrayList<String>();
+        ListView lv = (ListView)findViewById(R.id.listView);
+        Button bouton = (Button)findViewById(R.id.button);
+
+        //Initialisation
         categories.add("10");
         categories.add("20");
         categories.add("30");
         categories.add("40");
         categories.add("50");
 
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        //Adapter
+        ArrayAdapter<String> categorieAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> listeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
 
         // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorieAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
+        //SetAdapter
+        spinner.setAdapter(categorieAdapter);
+            //lv.setListAdapter(listeAdapter);
 
-        // Spinner click listener
+        //Listeners
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -52,10 +61,11 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> arg0) {
               // TODO Auto-generated method stub
             }
-      });
+        });
 
 
     }
+
 
 
 }
