@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -21,13 +22,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Variables
-        ArrayList<String> listItems=new ArrayList<String>();
+        final ArrayList<String> listItems=new ArrayList<String>();
 
         //Elements
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         List<String> categories = new ArrayList<String>();
         ListView lv = (ListView)findViewById(R.id.listView);
         Button bouton = (Button)findViewById(R.id.button);
+        final EditText searchBar = (EditText)findViewById(R.id.editText);
 
         //Initialisation
         categories.add("10");
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Adapter
         ArrayAdapter<String> categorieAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
-        ArrayAdapter<String> listeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        final ArrayAdapter<String> listeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
 
         // Drop down layout style - list view with radio button
         categorieAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -60,6 +62,16 @@ public class MainActivity extends AppCompatActivity {
             }
             public void onNothingSelected(AdapterView<?> arg0) {
               // TODO Auto-generated method stub
+            }
+        });
+
+        bouton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                listItems.add(searchBar.getText().toString());
+                listeAdapter.notifyDataSetChanged();
+
+                System.out.println(listItems);
             }
         });
 
