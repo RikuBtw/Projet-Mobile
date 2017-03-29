@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:weightSum="1"
+        android:layout_weight="0.06">
+
+        <ImageView
+            android:layout_width="95dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:id="@+id/Affiche"
+            android:adjustViewBounds="false"
+            android:layout_weight="0.03" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
+            android:padding="10px"
+            android:layout_weight="0.58">
+
+            <TextView
+                android:text="Titre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Titre" />
+
+            <TextView
+                android:text="Titre original"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Original" />
+
+            <TextView
+                android:text="Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Date" />
+
+            <TextView
+                android:text="Note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Note" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
