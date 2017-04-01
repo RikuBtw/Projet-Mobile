@@ -22,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -60,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              String item = parent.getItemAtPosition(position).toString();
+                String item = parent.getItemAtPosition(position).toString();
             }
             public void onNothingSelected(AdapterView<?> arg0) {
-              // TODO Auto-generated method stub
+                // TODO Auto-generated method stub
             }
         });
         //Bouton
@@ -84,13 +85,14 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(tag);
         RequestQueue queue = Volley.newRequestQueue(this);
         tag = tag.replaceAll(" ", "+");
-        StringRequest stringRequest =
-                new StringRequest(
+        JsonObjectRequest stringRequest =
+                new JsonObjectRequest(
                         Request.Method.POST,
-                        "https://api.themoviedb.org/3/search/movie?api_key=b6c9ea5303eb45ffcc0ee1a092b448c9&query="+tag,
-                        new Response.Listener<String>() {
-                            public void onResponse(String response) {
-
+                        "https://api.themoviedb.org/3/search/movie?api_key=b6c9ea5303eb45ffcc0ee1a092b448c9&query="+tag, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                System.out.println(response);
                                 final ArrayList<String> listItems=new ArrayList<String>();
                                 final ListView lv = (ListView)findViewById(R.id.listView);
                                 final ArrayAdapter<String> listeAdapter = new ArrayAdapter<String>((MainActivity.this).getBaseContext(), android.R.layout.simple_list_item_1, listItems);
@@ -106,31 +108,27 @@ public class MainActivity extends AppCompatActivity {
                                 });
                                 ArrayList<Film> listeFilm = new ArrayList<Film>();
                                 try {
-                                    JSONObject object = (JSONObject) new JSONTokener(response).nextValue();
-                                   for(int i=0; i<max;i++) {
-                                       System.out.println(object.getJSONArray("results").getJSONObject(i));
-                                       if(object.getJSONArray("results").getJSONObject(i)!=null) {
-                                           String id = object.getJSONArray("results").getJSONObject(i).getString("id");
-                                           String titre = object.getJSONArray("results").getJSONObject(i).getString("title");
-                                           String originTtitre = object.getJSONArray("results").getJSONObject(i).getString("original_title");
-                                           String resume = object.getJSONArray("results").getJSONObject(i).getString("overview");
-                                           String date = object.getJSONArray("results").getJSONObject(i).getString("release_date");
-                                           String affiche = object.getJSONArray("results").getJSONObject(i).getString("poster_path");
-                                           String note = object.getJSONArray("results").getJSONObject(i).getString("vote_average");
-                                           Film film = new Film(id, titre, originTtitre, resume, date, affiche, note);
-                                           System.out.println(film.toString());
-                                           listeFilm.add(film);
-                                       }
-                                   }
-
-
-
-                                    TextView visu = (TextView)
-                                            findViewById(R.id.visu);
-
+                                    JSONObject object = response;
+                                    for(int i=0; i<max;i++) {
+                                        System.out.println(object.getJSONArray("results").getJSONObject(i));
+                                        if(object.getJSONArray("results").getJSONObject(i)!=null) {
+                                            String id = object.getJSONArray("results").getJSONObject(i).getString("id");
+                                            String titre = object.getJSONArray("results").getJSONObject(i).getString("title");
+                                            String originTtitre = object.getJSONArray("results").getJSONObject(i).getString("original_title");
+                                            String resume = object.getJSONArray("results").getJSONObject(i).getString("overview");
+                                            String date = object.getJSONArray("results").getJSONObject(i).getString("release_date");
+                                            String affiche = object.getJSONArray("results").getJSONObject(i).getString("poster_path");
+                                            String note = object.getJSONArray("results").getJSONObject(i).getString("vote_average");
+                                            Film film = new Film(id, titre, originTtitre, resume, date, affiche, note);
+                                            System.out.println(film.toString());
+                                            listeFilm.add(film);
+                                        }
+                                    }
                                 }catch (org.json.JSONException js){
                                     js.getMessage();
                                 }
+                                TextView visu = (TextView) findViewById(R.id.visu);
+                                visu.setVisibility(View.GONE);
                                 FilmAdapter filmAdapter = new FilmAdapter((MainActivity.this), listeFilm);
                                 System.out.println(filmAdapter.toString());
                                 lv.setAdapter(filmAdapter);
@@ -144,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
                                 final ArrayAdapter<String> listeAdapter = new ArrayAdapter<String>((MainActivity.this).getBaseContext(), android.R.layout.simple_list_item_1, listItems);
                                 lv.setAdapter(listeAdapter);
 
-                                TextView visu = (TextView)
-                                        findViewById(R.id.visu);
+                                TextView visu = (TextView) findViewById(R.id.visu);
+                                visu.setVisibility(View.VISIBLE);
                                 visu.setText("Pas de résultat");
                             }});
 

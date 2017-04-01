@@ -25,32 +25,50 @@
             android:layout_width="190dp"
             android:layout_height="match_parent"
             android:padding="10px"
-            android:layout_weight="0.58">
+            android:layout_weight="0.56">
 
             <TextView
                 android:text="Titre"
+                android:textSize="20dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Titre" />
 
             <TextView
                 android:text="Titre original"
+                android:textSize="16dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Original" />
 
             <TextView
                 android:text="Date"
+                android:textSize="12dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Date" />
 
             <TextView
                 android:text="Note"
+                android:textSize="15dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Note" />
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.31">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@android:drawable/ic_media_play"
+                android:id="@+id/imageView" />
+        </RelativeLayout>
 
     </LinearLayout>
 

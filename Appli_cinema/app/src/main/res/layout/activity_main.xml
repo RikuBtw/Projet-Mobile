@@ -20,14 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="98dp"
             android:weightSum="1"
-            android:background="#fff">
+            android:background="#fff"
+            android:padding="5dp">
 
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="236dp"
-                android:layout_height="82dp"
-                android:layout_weight="0.98">
+                android:layout_width="238dp"
+                android:layout_height="82dp">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -35,19 +35,36 @@
                     android:id="@+id/editText" />
 
                 <Spinner
-                    android:layout_width="104dp"
+                    android:layout_width="match_parent"
                     android:layout_height="37dp"
-                    android:id="@+id/spinner" />
+                    android:id="@+id/spinner2" />
+
             </LinearLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                android:id="@+id/button"
-                android:layout_gravity="center_horizontal"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.98"
+                android:weightSum="1">
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:id="@+id/spinner"
+                    android:layout_weight="0.70"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rechercher"
+                    android:id="@+id/button"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <TextView
