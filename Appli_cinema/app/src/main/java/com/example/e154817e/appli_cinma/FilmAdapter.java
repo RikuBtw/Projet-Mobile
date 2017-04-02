@@ -23,8 +23,15 @@ public class FilmAdapter extends ArrayAdapter<Film> {
         Film f = getItem(position);
         TextView nom = (TextView)row.findViewById(R.id.Titre);
         nom.setText(f.getTitre());
-        TextView original = (TextView)row.findViewById(R.id.Original);
-        original.setText("("+f.getTitreOriginal()+")");
+        if(f.getTitre().equals(f.getTitreOriginal())) {
+            TextView original = (TextView)row.findViewById(R.id.Original);
+            original.setVisibility(View.GONE);
+        }else{
+            TextView original = (TextView)row.findViewById(R.id.Original);
+            original.setText("("+f.getTitreOriginal()+")");
+            original.setVisibility(View.VISIBLE);
+        }
+
         TextView date = (TextView)row.findViewById(R.id.Date);
         date.setText(f.getDate());
         TextView note = (TextView)row.findViewById(R.id.Note);

@@ -34,6 +34,9 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
-        //Spinner
+        //Size
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
         List<String> categories = new ArrayList<String>();
         categories.add("10");
@@ -58,15 +60,18 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> categorieAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
         categorieAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(categorieAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-            }
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
+        //Tri
+        final Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+        List<String> categories2 = new ArrayList<String>();
+        categories2.add("Titre ascendants");
+        categories2.add("Titre descendants");
+        categories2.add("Date récentes");
+        categories2.add("Date anciennes");
+        categories2.add("Note ascendantes");
+        categories2.add("Note descendantes");
+        ArrayAdapter<String> categorieAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories2);
+        categorieAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(categorieAdapter2);
         //Bouton
         final EditText searchBar = (EditText)findViewById(R.id.editText);
         Button bouton = (Button)findViewById(R.id.button);
@@ -74,21 +79,21 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 searchBar.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                rechercher(v, searchBar.getText().toString(), Integer.parseInt(spinner.getSelectedItem().toString()));
+                rechercher(v, searchBar.getText().toString(), Integer.parseInt(spinner.getSelectedItem().toString()), spinner2.getSelectedItem().toString());
             }
 
         });
 
     }
     //Recherche
-    private void rechercher(View v, String tag, final int max){
+    private void rechercher(View v, String tag, final int max, final String tri){
         System.out.println(tag);
         RequestQueue queue = Volley.newRequestQueue(this);
         tag = tag.replaceAll(" ", "+");
         JsonObjectRequest stringRequest =
                 new JsonObjectRequest(
                         Request.Method.POST,
-                        "https://api.themoviedb.org/3/search/movie?api_key=b6c9ea5303eb45ffcc0ee1a092b448c9&query="+tag, null,
+                        "https://api.themoviedb.org/3/search/movie?api_key=b6c9ea5303eb45ffcc0ee1a092b448c9&query="+tag+"&language=fr-FR", null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -122,6 +127,31 @@ public class MainActivity extends AppCompatActivity {
                                             Film film = new Film(id, titre, originTtitre, resume, date, affiche, note);
                                             System.out.println(film.toString());
                                             listeFilm.add(film);
+                                            switch (tri) {
+                                                case "Titre ascendants":
+                                                    Collections.sort(listeFilm, new NameComparator());
+                                                    break;
+                                                case "Titre descendants":
+                                                    NameComparator comparator = new NameComparator();
+                                                    Collections.sort(listeFilm, Collections.reverseOrder(comparator));
+                                                    break;
+                                                case "Date anciennes":
+                                                    Collections.sort(listeFilm, new DateComparator());
+                                                    break;
+                                                case "Date récentes":
+                                                    DateComparator comparator2 = new DateComparator();
+                                                    Collections.sort(listeFilm, Collections.<Film>reverseOrder(comparator2));
+                                                    break;
+                                                case "Note ascendantes":
+                                                    Collections.sort(listeFilm, new NoteComparator());
+                                                    break;
+                                                case "Note descendantes":
+                                                    NoteComparator comparator3 = new NoteComparator();
+                                                    Collections.sort(listeFilm, Collections.<Film>reverseOrder(comparator3));
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
                                         }
                                     }
                                 }catch (org.json.JSONException js){

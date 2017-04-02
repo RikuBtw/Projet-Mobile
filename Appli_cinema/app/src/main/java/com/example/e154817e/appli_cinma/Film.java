@@ -3,6 +3,8 @@ package com.example.e154817e.appli_cinma;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Comparator;
+
 /**
  * Created by Riku on 29/03/2017.
  */
@@ -16,6 +18,7 @@ public class Film implements Parcelable {
     private String date;
     private String affiche;
     private String note;
+
 
     public Film(String filmId, String filmTitre, String filmOriginal, String filmResume, String filmDate, String filmAffiche, String filmNote){
         this.id = filmId;
@@ -58,6 +61,7 @@ public class Film implements Parcelable {
     public String getAffiche() {
         return this.affiche;
     }
+
 
     @Override
     public int describeContents() {
